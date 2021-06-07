@@ -23,45 +23,31 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 	public int[] getRandomizedNumbers() {
 		return randomizedNumbers;
 	}
-	public void setRandomizedNumbers(int[] randomizedNumbers) {
-		this.randomizedNumbers = randomizedNumbers;
-	}
+	
 	public int getAttempts() {
 		return attempts;
 	}
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
-	}
+	
 	public int getTracks() {
 		return tracks;
 	}
-	public void setTracks(int tracks) {
-		this.tracks = tracks;
-	}
+	
 	public int getRange() {
 		return range;
 	}
-	public void setRange(int range) {
-		this.range = range;
-	}
+	
 	public int getSelectedMode() {
 		return selectedMode;
 	}
-	public void setSelectedMode(int selectedMode) {
-		this.selectedMode = selectedMode;
-	}
+	
 	public int getScore() {
 		return score;
 	}
-	public void setScore(int score) {
-		this.score = score;
-	}
+	
 	public int getLevel() {
 		return level;
 	}
-	public void setLevel(int level) {
-		this.level = level;
-	}
+	
 	//Accessor Methods End
 	
 	public void getMode(int theMode) {
@@ -101,17 +87,17 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 		}
 	}
 	
-	private void theNumberArray() {
+	public void theNumberArray() {
 		orderedNumberArray = new int[range];
 		int numberToUse = 1;
 		for (int indexCounter = 0; indexCounter < orderedNumberArray.length; indexCounter++) {
 			orderedNumberArray[indexCounter] = numberToUse;
 			numberToUse++;
 		}
-		System.out.println(Arrays.toString(orderedNumberArray));
+		trackGenerator();
 	}
 
-	public void trackGenerator() {
+	private void trackGenerator() {
 		/*
 		 * Method				:	trackGenerator
 		 * 
@@ -138,5 +124,14 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 				numbersToRandomize[indexCounter] = numberRandomizer.nextInt(range);
 				randomizedNumbers = numbersToRandomize;
 	    	}
+	}
+	
+	public void checkTracks(boolean allNumbersCorrect) {
+		if (allNumbersCorrect) {
+			range += 10;
+			level++;
+			score += 100;
+			theNumberArray();
+		}
 	}
 }
