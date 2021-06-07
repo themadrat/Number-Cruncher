@@ -47,7 +47,6 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 	public int getLevel() {
 		return level;
 	}
-	
 	//Accessor Methods End
 	
 	public void getMode(int theMode) {
