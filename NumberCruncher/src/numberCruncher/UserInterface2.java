@@ -188,6 +188,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	private ImageIcon xMark = new ImageIcon("Images/XMark.png");
 	private ImageIcon arrowUp = new ImageIcon("Images/LedArrowUp.png");
 	private ImageIcon arrowDown = new ImageIcon("Images/LedArrowDown.png");
+	private ImageIcon logo = new ImageIcon("Images/Logo.png");
 	
 	private final Integer textTimer = 5000;
 	private Boolean timeToEmptyText = true;
@@ -1745,6 +1746,10 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	
 	contentPane.add(lblInitials);
 	
+	JLabel lblLogo = new JLabel(logo);
+	lblLogo.setBounds(0, 0, 809, 267);
+	contentPane.add(lblLogo);
+	
 	//setVisible statements start
 	textFieldTrack1_1.setVisible(false);
 	textFieldTrack2_1.setVisible(false);
@@ -2070,5 +2075,6 @@ public class UserInterface2 extends JFrame implements ActionListener {
 				}
 			}
 			timeToEmptyText = !timeToEmptyText;
-		}};
+		}	
+};
 
