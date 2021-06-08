@@ -71,11 +71,6 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	private JList JlistHistory6 = new JList(numberList6);
 	private JList JlistHistory7 = new JList(numberList7);
 	
-	private JLabel lblInitials = new JLabel("");
-	private JLabel lblRangeAchieved = new JLabel("");
-	private JLabel lblScoreAchieved = new JLabel("");
-	private JLabel lblLevelAchieved = new JLabel("");
-	
 	NumberCruncherManager2 NCM2 = new NumberCruncherManager2();
 	
 	private int[] theRandomArray;
@@ -133,8 +128,13 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	private JLabel lblAttemptsCounter_4 = new JLabel("");
 	private JLabel lblAttemptsCounter_5 = new JLabel("");
 	private JLabel lblAttemptsCounter_6 = new JLabel("");
+	private JLabel lblScore = new JLabel("");
+	private JLabel lblLevel = new JLabel("");
+	private JLabel lblRange = new JLabel("");
 	
+	private boolean noAttempts = false;
 	
+	private JLabel lblGameOver = new JLabel("Game Over");
 	/**
 	 * Launch the application.
 	 */
@@ -156,12 +156,19 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	public UserInterface2() {
 		emptyText.start();
 		
+		lblGameOver.setVisible(false);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 825, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameOver.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 42));
+		lblGameOver.setBounds(159, 191, 500, 100);
+		
+		contentPane.add(lblGameOver);
 		
 		lblAttemptsCounter.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAttemptsCounter.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 30));
@@ -283,7 +290,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	
 	contentPane.add(JlistHistory2);
 	JlistHistory3.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 16));
-	JlistHistory3.setBounds(310, 150, 50, 200);
+	JlistHistory3.setBounds(310, 155, 50, 200);
 	
 	contentPane.add(JlistHistory3);
 	JlistHistory4.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 16));
@@ -302,22 +309,6 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	JlistHistory7.setBounds(710, 155, 50, 200);
 	
 	contentPane.add(JlistHistory7);
-	lblRangeAchieved.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
-	lblRangeAchieved.setBounds(10, 397, 150, 25);
-	
-	contentPane.add(lblRangeAchieved);
-	lblScoreAchieved.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
-	lblScoreAchieved.setBounds(10, 430, 150, 25);
-	
-	contentPane.add(lblScoreAchieved);
-	lblLevelAchieved.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
-	lblLevelAchieved.setBounds(10, 452, 150, 25);
-	
-	contentPane.add(lblLevelAchieved);
-	lblInitials.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 18));
-	lblInitials.setBounds(10, 352, 150, 25);
-	
-	contentPane.add(lblInitials);
 	
 	lblLogo.setBounds(0, 0, 809, 267);
 	contentPane.add(lblLogo);
@@ -408,10 +399,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	
 	btnGuessSubmission.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if (NCM2.getSelectedMode() == 1) {
-				
 				checkNumbers();
-			}
 		}
 	});
 	btnGuessSubmission.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 12));
@@ -447,6 +435,18 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	lblAttemptsCounter_6.setBounds(710, 94, 50, 50);
 	
 	contentPane.add(lblAttemptsCounter_6);
+	lblScore.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 20));
+	lblScore.setBounds(10, 466, 200, 25);
+	
+	contentPane.add(lblScore);
+	lblLevel.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 20));
+	lblLevel.setBounds(10, 502, 200, 25);
+	
+	contentPane.add(lblLevel);
+	lblRange.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 20));
+	lblRange.setBounds(10, 538, 200, 25);
+	
+	contentPane.add(lblRange);
 	JlistHistory1.setVisible(false);
 	JlistHistory2.setVisible(false);
 	JlistHistory3.setVisible(false);
@@ -467,6 +467,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	
 	private void difficultySelection(int buttonPressed) {
 		if (buttonPressed == 1) {
+			theGuessArray = new int[3];
 			lblDifficultyPrompt.setVisible(false);
 			lblErrorLabel.setVisible(false);
 			lblEnterInitialsPrompt.setVisible(false);
@@ -475,18 +476,14 @@ public class UserInterface2 extends JFrame implements ActionListener {
 			btnDifficultModeButton.setVisible(false);
 			btnSubmissionButton.setVisible(false);
 			txtEnterInitials.setVisible(false);
-			lblRangeAchieved.setVisible(false);
-			lblScoreAchieved.setVisible(false);
-			lblLevelAchieved.setVisible(false);
 			lblLogo.setVisible(false);
 			
 			NCM2.getMode(1);
 			NCM2.theNumberArray();
-			theGuessArray = new int[NCM2.getTracks()];
 			
-			attemptsCounter1 = NCM2.getAttempts();
-			attemptsCounter2 = NCM2.getAttempts();
-			attemptsCounter3 = NCM2.getAttempts();
+			attemptsCounter1 = 5;
+			attemptsCounter2 = 5;
+			attemptsCounter3 = 5;
 			
 			JlistHistory1.setVisible(true);
 			JlistHistory2.setVisible(true);
@@ -507,6 +504,10 @@ public class UserInterface2 extends JFrame implements ActionListener {
 			lblAttemptsCounter_1.setText("" + attemptsCounter2);
 			lblAttemptsCounter_2.setText("" + attemptsCounter3);
 			
+			lblScore.setText("Score: " + NCM2.getScore());
+			lblLevel.setText("Level: " + NCM2.getLevel());
+			lblRange.setText("Range: 1-" + NCM2.getRange());
+			
 			btnGuessSubmission.setVisible(true);
 
 			
@@ -515,6 +516,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 		}
 		
 		if (buttonPressed == 2) {
+			theGuessArray = new int[5];
 			lblDifficultyPrompt.setVisible(false);
 			lblErrorLabel.setVisible(false);
 			lblEnterInitialsPrompt.setVisible(false);
@@ -523,20 +525,16 @@ public class UserInterface2 extends JFrame implements ActionListener {
 			btnDifficultModeButton.setVisible(false);
 			btnSubmissionButton.setVisible(false);
 			txtEnterInitials.setVisible(false);
-			lblRangeAchieved.setVisible(false);
-			lblScoreAchieved.setVisible(false);
-			lblLevelAchieved.setVisible(false);
 			lblLogo.setVisible(false);
 			
 			NCM2.getMode(2);
 			NCM2.theNumberArray();
-			theGuessArray = new int[NCM2.getTracks()];
 			
-			attemptsCounter1 = NCM2.getAttempts();
-			attemptsCounter2 = NCM2.getAttempts();
-			attemptsCounter3 = NCM2.getAttempts();
-			attemptsCounter4 = NCM2.getAttempts();
-			attemptsCounter5 = NCM2.getAttempts();
+			attemptsCounter1 = 7;
+			attemptsCounter2 = 7;
+			attemptsCounter3 = 7;
+			attemptsCounter4 = 7;
+			attemptsCounter5 = 7;
 			
 			JlistHistory1.setVisible(true);
 			JlistHistory2.setVisible(true);
@@ -562,6 +560,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 		}
 
 		if (buttonPressed == 3) {
+			theGuessArray = new int[7];
 			lblDifficultyPrompt.setVisible(false);
 			lblErrorLabel.setVisible(false);
 			lblEnterInitialsPrompt.setVisible(false);
@@ -570,22 +569,19 @@ public class UserInterface2 extends JFrame implements ActionListener {
 			btnDifficultModeButton.setVisible(false);
 			btnSubmissionButton.setVisible(false);
 			txtEnterInitials.setVisible(false);
-			lblRangeAchieved.setVisible(false);
-			lblScoreAchieved.setVisible(false);
-			lblLevelAchieved.setVisible(false);
 			lblLogo.setVisible(false);
 			
 			NCM2.getMode(3);
 			NCM2.theNumberArray();
 			theGuessArray = new int[NCM2.getTracks()];
 			
-			attemptsCounter1 = NCM2.getAttempts();
-			attemptsCounter2 = NCM2.getAttempts();
-			attemptsCounter3 = NCM2.getAttempts();
-			attemptsCounter4 = NCM2.getAttempts();
-			attemptsCounter5 = NCM2.getAttempts();
-			attemptsCounter6 = NCM2.getAttempts();
-			attemptsCounter7 = NCM2.getAttempts();
+			attemptsCounter1 = 11;
+			attemptsCounter2 = 11;
+			attemptsCounter3 = 11;
+			attemptsCounter4 = 11;
+			attemptsCounter5 = 11;
+			attemptsCounter6 = 11;
+			attemptsCounter7 = 11;
 			
 			JlistHistory1.setVisible(true);
 			JlistHistory2.setVisible(true);
@@ -753,69 +749,136 @@ public class UserInterface2 extends JFrame implements ActionListener {
 		numberList[5] = numberList6;
 		numberList[6] = numberList7;
 		
-		if (NCM2.getSelectedMode() == 1) {
-			for (int indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
-				if (NCM2.getResult()[indexCounter] == 1) {
-					correctnessArray[indexCounter].setIcon(checkMark);
-				}
-				else {
-					correctnessArray[indexCounter].setIcon(xMark);
-					
-					numberList[indexCounter].addElement(historicNumber[indexCounter]);
-				}
-				if (theGuessArray[indexCounter] < theRandomArray[indexCounter]) {
-					arrowArray[indexCounter].setIcon(arrowUp);	
-				}
-				else if (theGuessArray[indexCounter] > theRandomArray[indexCounter]){
-					arrowArray[indexCounter].setIcon(arrowDown);	
-				}
+		
+		int trackCounter = 0;
+		boolean tracksMatch = false;
+		
+		for (int indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
+			if (NCM2.getResult()[indexCounter] == 1) {
+				correctnessArray[indexCounter].setIcon(checkMark);
+				trackCounter++;
 			}
-			
+			else {
+				correctnessArray[indexCounter].setIcon(xMark);
+					
+				numberList[indexCounter].addElement(historicNumber[indexCounter]);
+				
+				
+				
+			}
+			if (theGuessArray[indexCounter] < theRandomArray[indexCounter]) {
+				arrowArray[indexCounter].setIcon(arrowUp);	
+			}
+			else if (theGuessArray[indexCounter] > theRandomArray[indexCounter]){
+				arrowArray[indexCounter].setIcon(arrowDown);	
+			}
+		}
+		if (NCM2.getSelectedMode() == 1) {
+			if (NCM2.getResult()[0] == 0) {
+				attemptsCounter1--;
+				lblAttemptsCounter.setText("" + attemptsCounter1);
+			}
+			if (NCM2.getResult()[1] == 0) {
+				attemptsCounter2--;
+				lblAttemptsCounter_1.setText("" + attemptsCounter2);
+			}
+			if (NCM2.getResult()[2] == 0) {
+				attemptsCounter3--;;
+				lblAttemptsCounter_2.setText("" + attemptsCounter3);
+			}
+		}
+		if (NCM2.getSelectedMode() == 2) {
+			if (NCM2.getResult()[0] == 0) {
+				attemptsCounter1 -= 1;
+				lblAttemptsCounter.setText("" + attemptsCounter1);
+			}
+			if (NCM2.getResult()[1] == 0) {
+				attemptsCounter2 -= 1;
+				lblAttemptsCounter_1.setText("" + attemptsCounter2);
+			}
+			if (NCM2.getResult()[2] == 0) {
+				attemptsCounter3 -= 1;
+				lblAttemptsCounter_2.setText("" + attemptsCounter3);
+			}
+			if (NCM2.getResult()[3] == 0) {
+				attemptsCounter4 -= 1;
+				lblAttemptsCounter_3.setText("" + attemptsCounter4);
+			}
+			if (NCM2.getResult()[4] == 0) {
+				attemptsCounter4 -= 1;
+				lblAttemptsCounter_4.setText("" + attemptsCounter5);
+			}
 		}
 		
+		if (NCM2.getSelectedMode() == 3) {
+			if (NCM2.getResult()[0] == 0) {
+				attemptsCounter1 -= 1;
+				lblAttemptsCounter.setText("" + attemptsCounter1);
+			}
+			if (NCM2.getResult()[1] == 0) {
+				attemptsCounter2 -= 1;
+				lblAttemptsCounter_1.setText("" + attemptsCounter2);
+			}
+			if (NCM2.getResult()[2] == 0) {
+				attemptsCounter3 -= 1;
+				lblAttemptsCounter_2.setText("" + attemptsCounter3);
+			}
+			if (NCM2.getResult()[3] == 0) {
+				attemptsCounter4 -= 1;
+				lblAttemptsCounter_3.setText("" + attemptsCounter4);
+			}
+			if (NCM2.getResult()[4] == 0) {
+				attemptsCounter4 -= 1;
+				lblAttemptsCounter_4.setText("" + attemptsCounter5);
+			}
+			if (NCM2.getResult()[5] == 0) {
+				attemptsCounter6 -= 1;
+				lblAttemptsCounter_5.setText("" + attemptsCounter6);
+			}
+			if (NCM2.getResult()[6] == 0) {
+				attemptsCounter7 -= 1;
+				lblAttemptsCounter_6.setText("" + attemptsCounter7);
+			}
+		}
+		if (NCM2.getSelectedMode() == 1) {
+			if (trackCounter == 3) {
+				tracksMatch = true;
+				NCM2.levelUp(tracksMatch);
+				NCM2.trackGenerator();
+			}
+			if(attemptsCounter1 == 0 || attemptsCounter2 == 0 || attemptsCounter3 == 0) {
+				noAttempts = true;
+				gameOver();
+			}
+		}
 		if (NCM2.getSelectedMode() == 2) {
-			for (int indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
-				for (indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
-					if (NCM2.getResult()[indexCounter] == 1) {
-						correctnessArray[indexCounter].setIcon(checkMark);
-					}
-					else {
-						correctnessArray[indexCounter].setIcon(xMark);
-						
-						numberList[indexCounter].addElement(historicNumber[indexCounter]);
-					}
-					if (theGuessArray[indexCounter] < theRandomArray[indexCounter]) {
-						arrowArray[indexCounter].setIcon(arrowUp);	
-					}
-					else if (theGuessArray[indexCounter] > theRandomArray[indexCounter]){
-						arrowArray[indexCounter].setIcon(arrowDown);	
-					}
-				}
+			if (trackCounter == 5) {
+				tracksMatch = true;
+				NCM2.levelUp(tracksMatch);
+				NCM2.trackGenerator();
+			}
+			if (attemptsCounter1 == 0 || attemptsCounter2 == 0 || attemptsCounter3 == 0 || attemptsCounter4 == 0 || attemptsCounter5 == 0) {
+				noAttempts = true;
+				gameOver();
 			}
 		}
 		if (NCM2.getSelectedMode() == 3) {
-			for (int indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
-				if (NCM2.getResult()[indexCounter] == 1) {
-					for (indexCounter = 0; indexCounter < NCM2.getResult().length; indexCounter++) {
-						if (NCM2.getResult()[indexCounter] == 1) {
-							correctnessArray[indexCounter].setIcon(checkMark);
-						}
-						else {
-							correctnessArray[indexCounter].setIcon(xMark);
-							
-							numberList[indexCounter].addElement(historicNumber[indexCounter]);
-						}
-						if (theGuessArray[indexCounter] < theRandomArray[indexCounter]) {
-							arrowArray[indexCounter].setIcon(arrowUp);	
-						}
-						else if (theGuessArray[indexCounter] > theRandomArray[indexCounter]){
-							arrowArray[indexCounter].setIcon(arrowDown);	
-						}
-					}
-				}
+			if (trackCounter == 7) {
+				tracksMatch = true;
+				NCM2.levelUp(tracksMatch);
+				NCM2.trackGenerator();
+			}
+			if (attemptsCounter1 == 0 || attemptsCounter2 == 0 || attemptsCounter3 == 0 || attemptsCounter4 == 0 || attemptsCounter5 == 0 || attemptsCounter6 == 0 || attemptsCounter7 == 0) {
+				noAttempts = true;
+				gameOver();
 			}
 		}
+		lblScore.setText("Score: " + NCM2.getScore());
+		lblLevel.setText("Level: " + NCM2.getLevel());
+		lblRange.setText("Range: 1-" + NCM2.getRange());
+		
 	}
+
 	
 	private void gameOver() {
 		/*
@@ -832,37 +895,46 @@ public class UserInterface2 extends JFrame implements ActionListener {
 		 * Modifications		:	Date:		Developer:		Notes:
 		 * 							06/07/21	Jared Shaddick	Initial Setup & Comments Added
 		 */					
-		
-		JlistHistory1.setVisible(false);
-		JlistHistory2.setVisible(false);
-		JlistHistory3.setVisible(false);
-		JlistHistory4.setVisible(false);
-		JlistHistory5.setVisible(false);
-		JlistHistory6.setVisible(false);
-		JlistHistory7.setVisible(false);
-		lblCorrectnessDisplay.setVisible(false);
-		lblCorrectnessDisplay_1.setVisible(false);
-		lblCorrectnessDisplay_2.setVisible(false);
-		lblCorrectnessDisplay_3.setVisible(false);
-		lblCorrectnessDisplay_4.setVisible(false);
-		lblCorrectnessDisplay_5.setVisible(false);
-		lblCorrectnessDisplay_6.setVisible(false);
-		lblArrowDisplay.setVisible(false);
-		lblArrowDisplay_1.setVisible(false);
-		lblArrowDisplay_2.setVisible(false);
-		lblArrowDisplay_3.setVisible(false);
-		lblArrowDisplay_4.setVisible(false);
-		lblArrowDisplay_5.setVisible(false);
-		lblArrowDisplay_6.setVisible(false);
-		txtGuessField.setVisible(false);
-		txtGuessField_1.setVisible(false);
-		txtGuessField_2.setVisible(false);
-		txtGuessField_3.setVisible(false);
-		txtGuessField_4.setVisible(false);
-		txtGuessField_5.setVisible(false);
-		txtGuessField_6.setVisible(false);
-		btnGuessSubmission.setVisible(false);
-		
+		if (noAttempts) {
+			lblGameOver.setVisible(true);
+			JlistHistory1.setVisible(false);
+			JlistHistory2.setVisible(false);
+			JlistHistory3.setVisible(false);
+			JlistHistory4.setVisible(false);
+			JlistHistory5.setVisible(false);
+			JlistHistory6.setVisible(false);
+			JlistHistory7.setVisible(false);
+			lblCorrectnessDisplay.setVisible(false);
+			lblCorrectnessDisplay_1.setVisible(false);
+			lblCorrectnessDisplay_2.setVisible(false);
+			lblCorrectnessDisplay_3.setVisible(false);
+			lblCorrectnessDisplay_4.setVisible(false);
+			lblCorrectnessDisplay_5.setVisible(false);
+			lblCorrectnessDisplay_6.setVisible(false);
+			lblArrowDisplay.setVisible(false);
+			lblArrowDisplay_1.setVisible(false);
+			lblArrowDisplay_2.setVisible(false);
+			lblArrowDisplay_3.setVisible(false);
+			lblArrowDisplay_4.setVisible(false);
+			lblArrowDisplay_5.setVisible(false);
+			lblArrowDisplay_6.setVisible(false);
+			txtGuessField.setVisible(false);
+			txtGuessField_1.setVisible(false);
+			txtGuessField_2.setVisible(false);
+			txtGuessField_3.setVisible(false);
+			txtGuessField_4.setVisible(false);
+			txtGuessField_5.setVisible(false);
+			txtGuessField_6.setVisible(false);
+			btnGuessSubmission.setVisible(false);
+			lblAttemptsCounter.setVisible(false);
+			lblAttemptsCounter_1.setVisible(false);
+			lblAttemptsCounter_2.setVisible(false);
+			lblAttemptsCounter_3.setVisible(false);
+			lblAttemptsCounter_4.setVisible(false);
+			lblAttemptsCounter_5.setVisible(false);
+			lblAttemptsCounter_6.setVisible(false);
+		}
+
 		
 	}
 		@Override
