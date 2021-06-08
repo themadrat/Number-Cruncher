@@ -14,6 +14,11 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 	private int selectedMode;
 	private int score = 0;
 	private int level = 1;
+	private int[] checkResultArray;
+	
+	private boolean tracksChecked;
+	private boolean numberTooLow;
+	private boolean numberTooHigh;
 	
 	private int[] orderedNumberArray;
 	
@@ -46,6 +51,22 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public boolean getTracksChecked() {
+		return tracksChecked;
+	}
+	
+	public boolean isNumberHigh() {
+		return numberTooHigh;
+	}
+
+	public boolean isNumberLow() {
+		return numberTooLow;
+	}
+	
+	public int[] getResult() {
+		return checkResultArray;
 	}
 	//Accessor Methods End
 	
@@ -112,25 +133,27 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 		 * 							06/01/21	Jared Shaddick	Comments Added
 		 */
 		numbersToRandomize = new int[range];
-		
-		 for (int indexCounter = 0; indexCounter < numbersToRandomize.length; indexCounter++) 
-	        {
-			 numbersToRandomize[indexCounter] = orderedNumberArray[indexCounter];
-	        }
+		int indexCounter;
+		for (indexCounter = 0; indexCounter < numbersToRandomize.length; indexCounter++) {
+			numbersToRandomize[indexCounter] = orderedNumberArray[indexCounter];
+		}
 		numberRandomizer = new Random();
-		for(int indexCounter = 0; indexCounter < numbersToRandomize.length; ++indexCounter)
-	    	{
+		for (indexCounter = 0; indexCounter < numbersToRandomize.length; indexCounter++) {
 				numbersToRandomize[indexCounter] = numberRandomizer.nextInt(range);
-				randomizedNumbers = numbersToRandomize;
-	    	}
+		}
+		randomizedNumbers = numbersToRandomize;
+		System.out.println(Arrays.toString(randomizedNumbers));
 	}
 	
-	public void checkTracks(boolean allNumbersCorrect) {
-		if (allNumbersCorrect) {
-			range += 10;
-			level++;
-			score += 100;
-			theNumberArray();
+	public void checkTracks(int[] numbersGuessed) {
+		checkResultArray = new int[tracks];
+		for (int indexCounter = 0; indexCounter < numbersGuessed.length; indexCounter++) {
+			if (numbersGuessed[indexCounter] == randomizedNumbers[indexCounter]) {
+				checkResultArray[indexCounter] = 1;
+			}
+			else {
+				checkResultArray[indexCounter] = 0;
+			}
 		}
-	}
+	}	
 }
