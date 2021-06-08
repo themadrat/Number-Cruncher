@@ -701,7 +701,6 @@ public class UserInterface2 extends JFrame implements ActionListener {
 		for (int indexCounter = 0; indexCounter < theGuessArray.length; indexCounter++) {
 			theGuessArray[indexCounter] = Integer.parseInt(guesses[indexCounter].getText());
 		}
-		System.out.println(Arrays.toString(theGuessArray));
 		NCM2.checkTracks(theGuessArray);
 		
 		JLabel[] correctnessArray = new JLabel[7];
