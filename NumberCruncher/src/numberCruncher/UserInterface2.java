@@ -336,7 +336,7 @@ public class UserInterface2 extends JFrame implements ActionListener {
 	lblArrowDisplay.setBounds(135, 358, 25, 25);
 	
 	contentPane.add(lblArrowDisplay);
-	lblArrowDisplay_1.setBounds(225, 358, 25, 25);
+	lblArrowDisplay_1.setBounds(235, 358, 25, 25);
 	
 	contentPane.add(lblArrowDisplay_1);
 	lblArrowDisplay_2.setBounds(335, 352, 25, 25);

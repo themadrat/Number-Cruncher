@@ -127,7 +127,6 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 		 * 							05/31/21	Jared Shaddick	Initial Setup
 		 * 							06/01/21	Jared Shaddick	Comments Added
 		 */
-		randomizedNumbers = new int[tracks];
 		numbersToRandomize = new int[1000];
 		int indexCounter;
 		int minRandom = 1;
@@ -136,7 +135,7 @@ public class NumberCruncherManager2 {										//This is a newer version of the 
 		for (indexCounter = 0; indexCounter < numbersToRandomize.length; indexCounter++) {
 				numbersToRandomize[indexCounter] = numberRandomizer.nextInt(maxRandom + minRandom) + minRandom;
 		}
-		
+		randomizedNumbers = numbersToRandomize;
 		System.out.println(Arrays.toString(randomizedNumbers));
 	}
 	
